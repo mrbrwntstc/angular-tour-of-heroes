@@ -1,0 +1,13 @@
+<div id="search-component">
+  <h4><label for="search-box">Hero Search</label></h4>
+
+  <input #searchBox id="search-box" (input)="search(searchBox.value)"/>
+
+  <ul class="search-result">
+    <!-- $ signifies that heroes is an Observable 
+         piping async automatically subscribes heroes, meaning we don't have to do so in the component class -->
+    <li *ngFor="let hero of heroes$ | async">
+      <a routerLink="/detail/{{hero.id}}">{{hero.name}}</a>
+    </li>
+  </ul>
+</div>

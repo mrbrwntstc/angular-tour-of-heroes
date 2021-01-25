@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router'; // for routing functionality
 import { HeroesComponent } from './heroes/heroes.component'; // to give the router somewhere to go once the routes are configured
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { HeroDetailComponent } from './hero-detail/hero-detail.component';
 
 // tell the Router which view to display when a user clicks a link or
 // pastes a URL into the browser address bar
@@ -8,7 +10,10 @@ import { HeroesComponent } from './heroes/heroes.component'; // to give the rout
 // path: a string that matches the URL in the browser address bar
 // component: the component that the router should create when navigating to this route
 const routes: Routes = [
-  {path: 'heroes', component: HeroesComponent} // localhost:4200/heroes will display the HeroesComponent
+  {path: 'heroes', component: HeroesComponent}, // localhost:4200/heroes will display the HeroesComponent
+  {path: 'dashboard', component: DashboardComponent}, // localhost:4200/dashboard
+  {path: '', redirectTo: '/dashboard', pathMatch: 'full'}, // landing page
+  {path: 'detail/:id', component: HeroDetailComponent} // each hero will have it's own page
 ];
 
 /**

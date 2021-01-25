@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Hero } from '../hero';
 import { HeroService } from '../hero.service';
-import { MessageService } from '../message.service';
 
 @Component({
   selector: 'app-heroes',
@@ -20,7 +19,7 @@ export class HeroesComponent implements OnInit {
    * 
    * @param heroService 
    */
-  constructor(private heroService: HeroService, private messageService: MessageService) { }
+  constructor(private heroService: HeroService) { }
 
   /**
    * the service is asynchronously retrieving data from a server
@@ -28,6 +27,23 @@ export class HeroesComponent implements OnInit {
    */
   getHeroes(): void{
     this.heroService.getHeroes().subscribe((heroes: Hero[]): Hero[] => this.heroes = heroes);
+  }
+
+  add(name: string): void {
+    name = name.trim();
+    if(!name) {
+      return;
+    }
+    this.heroService
+      .addHero({ name } as Hero)
+      .subscribe((hero: Hero): void => {
+        this.heroes.push(hero);
+      });
+  }
+
+  delete(hero: Hero): void {
+    this.heroes = this.heroes.filter((h: Hero) => h !== hero);
+    this.heroService.deleteHero(hero).subscribe(); // Observable does nothing unless it is subscribed
   }
 
   /**
@@ -38,10 +54,5 @@ export class HeroesComponent implements OnInit {
    */
   ngOnInit(): void {
     this.getHeroes();
-  }
-
-  onSelect(hero: Hero): void {
-    this.selectedHero = hero;
-    this.messageService.add(`HeroesComponent: Selected hero id=${hero.id}`)
   }
 }
